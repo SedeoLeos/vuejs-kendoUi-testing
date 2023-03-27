@@ -776,7 +776,7 @@ const baseData = [
     },
   ];
   
-  export const customModelFields = {
+  export const customModelField = {
     id: "TaskID",
     title: "Title",
     description: "Description",
@@ -786,7 +786,16 @@ const baseData = [
     recurrenceId: "RecurrenceID",
     recurrenceExceptions: "RecurrenceException",
   };
-  
+  export const customModelFields = {
+    id: "id",
+    title: "titre",
+    // description: "description",
+    start: "dateDebut",
+    end: "dateFin",
+    // recurrenceRule: "RecurrenceRule",
+    // recurrenceId: "RecurrenceID",
+    // recurrenceExceptions: "RecurrenceException",
+  };
   const currentYear = new Date().getFullYear();
   const parseAdjust = (eventDate: string | number | Date) => {
     const date = new Date(eventDate);

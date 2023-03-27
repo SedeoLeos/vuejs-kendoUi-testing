@@ -1,8 +1,12 @@
 <template>
+  <intl locale="fr">
+
     <div class="viewSelectorScheduler">
         <button v-for="item in views" :key="view" :class="item.name === view ? 'active' : ''" :selected="item.name === view"
             @click="changeView(item)"> {{ item.title }}</button>
     </div>
+</intl>
+
 </template>
 <style>
 div.viewSelectorScheduler {
@@ -34,7 +38,11 @@ div.viewSelectorScheduler button.active {
 }
 </style>
 <script lang="ts">
+
 export default {
+    components:{
+
+    },
     props: {
         view: {
             type: String,
@@ -44,6 +52,8 @@ export default {
     },
     methods: {
         changeView(view: { name: String, title: String }) {
+            console.log(view.name, view.title);
+            
             this.$emit("view-changed", view);
         }
     }
