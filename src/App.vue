@@ -34,8 +34,8 @@ import {
   sampleDataWithCustomSchema,
   displayDate,
   customModelFields,
-customModelField,
-sampleDataWithResources,
+  customModelField,
+  sampleDataWithResources,
 } from './events-utc';
 import SchedulerViewSelectorF from "./components/fragment/ViewSelectorSchedulerF.vue";
 import {
@@ -84,54 +84,34 @@ export default {
         { name: 'agenda', title: 'Agenda' },
       ],
       displayDate,
-      
+
     };
   },
   async beforeCreate() {
-     const rep = await axios
+    const rep = await axios
       .get('http://127.0.0.1:3000/api/v1/daxium/test/submissions')
-            let counter = 0;
-            const datas =  rep.data.datas.map((data: { titre: string, dateFin: number, dateDebut: number }) => {
-              const currentYear = new Date().getFullYear();
-              counter += 1;
-              return {
-                id: counter,
-                titre: data.titre,
-                dateFin: new Date(data.dateFin),
-                // .setFullYear(currentYear),
-                dateDebut: new Date(data.dateDebut)
-                // .setFullYear(currentYear)
-              }
-            })
-            this.dataItems = datas
-            //console.table(this.dataItems)
-           // console.log(datas)
 
- 
+    let counter = 0;
+    const datas = rep.data.datas.map((data: { titre: string, dateFin: number, dateDebut: number }) => {
+      const currentYear = new Date().getFullYear();
+      counter += 1;
+      return {
+        id: counter,
+        titre: data.titre,
+        dateFin: new Date(data.dateFin),
+        dateDebut: new Date(data.dateDebut)
+      }
+    })
+    this.dataItems = datas
+    alert('berfor create')
+    //console.table(this.dataItems)
+    // console.log(datas)
+
+
   },
-  
-  methods: {
-    handleDataChange(event: { created: any, updated: any, deleted: any }) {
-      const newData = [...this.dataItems] // Filter the deleted items
-        .filter(
-          (item) =>
-            event.deleted.find((current: { TaskID: number; }) => current.TaskID === item.TaskID) ===
-            undefined
-        ) // Find and replace the updated items
-        .map(
-          (item) =>
-            event.updated.find((current: { TaskID: number; }) => current.TaskID === item.TaskID) || item
-        ) // Add the newly created items and assign an `id`.
-        .concat(
-          event.created.map((item: any) =>
-            Object.assign({}, item, {
-              TaskID: guid(),
-            })
-          )
-        );
 
-      this.dataItems = newData;
-    },
+  methods: {
+    
     handleTimezoneChange(event: { value: string; }) {
       this.timezone = event.value;
     },
@@ -143,9 +123,9 @@ export default {
 };
 </script>
 <template>
-  <Scheduler :date="new Date()"  :data-items="dataItems" :model-fields="customModelFields" :default-date="displayDate" :view="view"
-    :views="views" :editable="true"  :timezone="timezone" @datachange="handleDataChange"
-    :item="'itemRender'" :header="'headerRender'">
+  <Scheduler :date="new Date()" :data-items="dataItems" :model-fields="customModelFields" :default-date="displayDate"
+    :view="view" :views="views" :editable="true" :timezone="timezone" :item="'itemRender'"
+    :header="'headerRender'">
     <template v-slot:headerRender="{ props }">
       <SchedulerHeader style="background-color: #fff;">
         <div class="contenaire grid">
